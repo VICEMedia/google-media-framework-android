@@ -111,7 +111,7 @@ public class ImaPlayer {
   /**
    * Plays the content (i.e. the actual video).
    */
-  private SimpleVideoPlayer contentPlayer;
+  public SimpleVideoPlayer contentPlayer;
 
   /**
    * The callback that is triggered when fullscreen mode is entered or closed.
