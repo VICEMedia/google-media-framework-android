@@ -122,7 +122,7 @@ public class PlaybackControlLayer implements Layer, PlayerControlCallback {
    * Message handler which allows us to send delayed messages to the {@link PlaybackControlLayer}
    * This is useful for fading out the view after a certain time.
    */
-  private static class MessageHandler extends Handler {
+  public static class MessageHandler extends Handler {
     /**
      * A reference to the {@link PlaybackControlLayer} that we are handling messages for.
      */
@@ -131,7 +131,7 @@ public class PlaybackControlLayer implements Layer, PlayerControlCallback {
     /**
      * @param playbackControlLayer The {@link PlaybackControlLayer} we should handle messages for.
      */
-    private MessageHandler(PlaybackControlLayer playbackControlLayer) {
+    public MessageHandler(PlaybackControlLayer playbackControlLayer) {
       this.playbackControlLayer = new WeakReference<PlaybackControlLayer>(playbackControlLayer);
     }
 

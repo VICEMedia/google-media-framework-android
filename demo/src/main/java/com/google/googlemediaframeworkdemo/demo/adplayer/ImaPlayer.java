@@ -380,7 +380,7 @@ public class ImaPlayer {
         container,
         video,
         videoTitle,
-        autoplay);
+        autoplay, new CustomPlaybackControlLayer(videoTitle, null));
 
     contentPlayer.addPlaybackListener(contentPlaybackListener);
     contentPlayer.setPlayCallback(new PlaybackControlLayer.PlayCallback() {
@@ -620,7 +620,7 @@ public class ImaPlayer {
         "",
         true,
         0,
-        fullscreenCallback);
+        fullscreenCallback, null);
 
     adPlayer.addPlaybackListener(adPlaybackListener);
 

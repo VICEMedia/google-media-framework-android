@@ -77,8 +77,9 @@ public class SimpleVideoPlayer {
                            FrameLayout container,
                            Video video,
                            String videoTitle,
-                           boolean autoplay) {
-    this(activity, container, video, videoTitle, autoplay, 0, null);
+                           boolean autoplay,
+                           PlaybackControlLayer customPlaybackControlLayer) {
+    this(activity, container, video, videoTitle, autoplay, 0, null, customPlaybackControlLayer);
   }
 
   /**
@@ -96,10 +97,17 @@ public class SimpleVideoPlayer {
                            String videoTitle,
                            boolean autoplay,
                            int startPostitionMs,
-                           PlaybackControlLayer.FullscreenCallback fullscreenCallback) {
+                           PlaybackControlLayer.FullscreenCallback fullscreenCallback,
+                           PlaybackControlLayer customPlaybackControlLayer) {
     this.activity = activity;
 
-    playbackControlLayer = new PlaybackControlLayer(videoTitle, fullscreenCallback);
+    if (customPlaybackControlLayer == null) {
+      playbackControlLayer = new PlaybackControlLayer(videoTitle, fullscreenCallback);
+    }
+    else{
+      playbackControlLayer = customPlaybackControlLayer;
+    }
+
     subtitleLayer = new SubtitleLayer();
     videoSurfaceLayer = new VideoSurfaceLayer(autoplay);
     this.autoplay = autoplay;
