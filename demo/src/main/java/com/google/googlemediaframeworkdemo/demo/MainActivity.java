@@ -21,6 +21,8 @@ import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -114,6 +116,7 @@ public class MainActivity extends Activity implements PlaybackControlLayer.Fulls
   /**
    * When a video has been selected, create an {@link ImaPlayer} and play the video.
    */
+
   public void createImaPlayer(VideoListItem videoListItem) {
     if (imaPlayer != null) {
       imaPlayer.release();
@@ -131,6 +134,12 @@ public class MainActivity extends Activity implements PlaybackControlLayer.Fulls
         videoTitle,
         adTagUrl);
     imaPlayer.setFullscreenCallback(this);
+
+
+
+
+
+
 
     Resources res = getResources();
 
@@ -215,12 +224,8 @@ public class MainActivity extends Activity implements PlaybackControlLayer.Fulls
   public VideoListItem[] getVideoListItems() {
     return new VideoListItem[] {
         new VideoListItem("No ads (DASH)",
-            new Video("http://www.youtube.com/api/manifest/dash/id/bf5bb2419360daf1/source/youtub" +
-                "e?as=fmp4_audio_clear,fmp4_sd_hd_clear&sparams=ip,ipbits,expire,as&ip=0.0.0.0&ip" +
-                "bits=0&expire=19000000000&signature=255F6B3C07C753C88708C07EA31B7A1A10703C8D.2D6" +
-                "A28B21F921D0B245CDCF36F7EB54A2B5ABFC2&key=ik0",
-                Video.VideoType.DASH,
-                "bf5bb2419360daf1"),
+            new Video("http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4",
+                Video.VideoType.MP4),
             null),
         new VideoListItem("Skippable preroll (DASH)",
             new Video("http://www.youtube.com/api/manifest/dash/id/bf5bb2419360daf1/source/youtub" +

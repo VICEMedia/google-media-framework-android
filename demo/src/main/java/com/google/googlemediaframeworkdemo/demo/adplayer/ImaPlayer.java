@@ -20,6 +20,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -341,6 +342,19 @@ public class ImaPlayer {
       return vpu;
     }
   };
+    Handler handler;
+    Runnable mRunnable = new Runnable() {
+        public void run() {
+            if (contentPlayer != null) {
+                Log.i("d", "::run: getCurrentPosition = " + contentPlayer.getCurrentPosition());
+            }
+            playbackControlLayer.updateProgress();
+            handler.postDelayed(this, 250);
+
+        }
+    };
+
+    public CustomPlaybackControlLayer playbackControlLayer;
 
   /**
    * @param activity The activity that will contain the video player.
@@ -380,7 +394,7 @@ public class ImaPlayer {
         container,
         video,
         videoTitle,
-        autoplay, new CustomPlaybackControlLayer(videoTitle, null));
+        autoplay, playbackControlLayer = new CustomPlaybackControlLayer(videoTitle, null));
 
     contentPlayer.addPlaybackListener(contentPlaybackListener);
     contentPlayer.setPlayCallback(new PlaybackControlLayer.PlayCallback() {
@@ -472,11 +486,11 @@ public class ImaPlayer {
                    FrameLayout container,
                    Video video) {
     this(activity,
-        container,
-        video,
-        "",
-        ImaSdkFactory.getInstance().createImaSdkSettings(),
-        null);
+            container,
+            video,
+            "",
+            ImaSdkFactory.getInstance().createImaSdkSettings(),
+            null);
   }
 
   /**
@@ -487,6 +501,7 @@ public class ImaPlayer {
       adPlayer.pause();
     }
     contentPlayer.pause();
+
   }
 
   /**
@@ -497,6 +512,10 @@ public class ImaPlayer {
       requestAd();
     } else {
       contentPlayer.play();
+        if (handler == null) {
+            handler = new Handler();
+            handler.post(mRunnable);
+        }
     }
   }
 

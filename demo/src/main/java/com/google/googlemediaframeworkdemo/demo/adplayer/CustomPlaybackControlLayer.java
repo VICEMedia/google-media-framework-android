@@ -14,6 +14,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -84,7 +85,7 @@ public class CustomPlaybackControlLayer extends PlaybackControlLayer implements 
      * The chrome (the top chrome, bottom chrome, and background) is by default a slightly
      * transparent black.
      */
-    public static final int DEFAULT_CHROME_COLOR = Color.argb(140, 0, 0, 0);
+    public static final int DEFAULT_CHROME_COLOR = Color.argb(180, 0, 0, 0);
 
     /**
      * By default, there is no tint to the controls.
@@ -99,7 +100,7 @@ public class CustomPlaybackControlLayer extends PlaybackControlLayer implements 
     /**
      * When the playback controls are shown, hide them after DEFAULT_TIMEOUT_MS milliseconds.
      */
-    private static final int DEFAULT_TIMEOUT_MS = 2000;
+    private static final int DEFAULT_TIMEOUT_MS = 5000;
 
     /**
      * When the controls are hidden, they fade out in FADE_OUT_DURATION_MS milliseconds.
@@ -241,6 +242,11 @@ public class CustomPlaybackControlLayer extends PlaybackControlLayer implements 
      * Displays the play icon when the video is playing, or the pause icon when the video is playing.
      */
     private ImageButton pausePlayButton;
+
+    /**
+     * Displays the rewind 30 seconds button.
+     */
+    private ImageButton rewindButton;
 
     /**
      * Displays a track and a thumb which can be used to seek to different time points in the video.
@@ -749,6 +755,7 @@ public class CustomPlaybackControlLayer extends PlaybackControlLayer implements 
      */
     private void setupView() {
         // Bind fields to UI elements.
+        rewindButton = (ImageButton) view.findViewById(R.id.rewind);
         pausePlayButton = (ImageButton) view.findViewById(R.id.pause);
         fullscreenButton = (ImageButton) view.findViewById((R.id.fullscreen));
         seekBar = (SeekBar) view.findViewById(R.id.mediacontroller_progress);
@@ -767,6 +774,14 @@ public class CustomPlaybackControlLayer extends PlaybackControlLayer implements 
             public void onClick(View view) {
                 togglePlayPause();
                 show(DEFAULT_TIMEOUT_MS);
+            }
+        });
+
+        rewindButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PlayerControl playerControl = getLayerManager().getControl();
+                playerControl.seekTo(playerControl.getCurrentPosition() - 30000);
             }
         });
 
@@ -966,9 +981,9 @@ public class CustomPlaybackControlLayer extends PlaybackControlLayer implements 
         }
 
         if (playerControl.isPlaying()) {
-            pausePlayButton.setImageResource(R.drawable.ic_action_pause_large);
+            pausePlayButton.setImageResource(R.drawable.ic_action_pause);
         } else {
-            pausePlayButton.setImageResource(R.drawable.ic_action_play_large);
+            pausePlayButton.setImageResource(R.drawable.ic_action_play);
         }
     }
 
